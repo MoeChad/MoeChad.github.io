@@ -57,8 +57,8 @@
 								<h2>Prerequisites</h2>
 								<ol>
 									<li>The website.json template found in this <a href="https://github.com/MoeChad/StaticWebsite">github repository</u></a> should be used in CloudFormation to create a S3 bucket which has two unique 
-										properties. First, the access control property is set to public read and second, the website hosting property is configured to hold an index.html document
-										enabled.</li>
+										properties. First, the access control property is set to public read and second, the website hosting property is enabled and configured to hold an index.html document
+										</li>
 									<li>A sample file named index.html should be uploaded to the appropriate github repository branch.</li>
 								</ol>
 								<h2>CI/CD Pipeline phases</h2>
@@ -78,7 +78,7 @@
 								<h2>Ideas for Imrpovement</h2>
 								<ul>
 									<li>Further automate the process by provisioning the S3 bucket inside the CodePipeline.</li>
-									<li>Use a configurable TTL to delete the S3 and any other dependencies.</li>
+									<li>Use a configurable TTL to delete the S3 bucket and any other dependencies.</li>
 								</ul>
 
 							</section>
