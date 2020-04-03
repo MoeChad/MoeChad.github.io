@@ -7,6 +7,7 @@
 <html>
 	<head>
 		<title>Amazon Web Services CI/CD Pipeline</title>
+		<link rel="shortcut icon" type= "image/png" href="images/ethernet.png"
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -55,70 +56,64 @@
 								</ul>
 								<h2>Prerequisites</h2>
 								<ol>
-									<li>The website.json template should be used in CloudFormation to create a S3 bucket which has two unique 
-										properties. First, the access control property is set to public read and second, website hosting is 
+									<li>The website.json template found in this <a href="https://github.com/MoeChad/StaticWebsite">github repository</u></a> should be used in CloudFormation to create a S3 bucket which has two unique 
+										properties. First, the access control property is set to public read and second, the website hosting property is configured to hold an index.html document
 										enabled.</li>
-									<li>Create a file named index.html and upload it to the GitHub repository branch</li>
+									<li>A sample file named index.html should be uploaded to the appropriate github repository branch.</li>
 								</ol>
-								<h2>Process</h2>
-								<ol>
-									<li>Dolor pulvinar etiam.</li>
-									<li>Etiam vel felis at viverra.</li>
-									<li>Felis enim feugiat magna.</li>
-									<li>Etiam vel felis nullam.</li>
-									<li>Felis enim et tempus.</li>
-								</ol>
+								<h2>CI/CD Pipeline phases</h2>
+								<ul>
+									<li><strong>Source Phase:</strong> The action provider for this pipeline was this <a href="https://github.com/MoeChad/StaticWebsite">github repository</u></a>. Webhooks were used
+									for the change detection method to ensure a test environment would be generated anytime there were changes to the repository. </li>
+									<li><strong>Testing Phase:</strong> CodeBuild was used to test whether the index.html file contained the words "Automation for the People!". This was done 
+										by using <code>cat index.html | grep "Automation for the People!"</code> (The generated buildspec.yml is available in the repository)
+									</li>
+									<li><strong>Deploy Phase:</strong> If the test phase had no errors then the index.html file was deployed to the S3 bucket initially created in the CloudFormation stack.</li>
+								</ul>
+								<h2>Cleanup</h2>
+								<ul>
+									<li>Ensure you delete the CloudFormation stack and the S3 bucket to avoid incurring any additional charges.</li>
+								</ul>
+
+								<h2>Ideas for Imrpovement</h2>
+								<ul>
+									<li>Further automate the process by provisioning the S3 bucket inside the CodePipeline.</li>
+									<li>Use a configurable TTL to delete the S3 and any other dependencies.</li>
+								</ul>
+
 							</section>
 
 					</div>
 
 				<!-- Footer -->
-					<footer id="footer">
+				<footer id="footer">
+					<section>
+						<a class="image fit"><img src="images/ccna_600.png" alt="" /></a>
+					</section>
+					<section class="split contact">
+						<section class="alt">
+							<h3>Address</h3>
+							<p>127.0.0.1</p>
+						</section>
 						<section>
-							<form method="post" action="#">
-								<div class="fields">
-									<div class="field">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="3"></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" /></li>
-								</ul>
-							</form>
+							<h3>Phone</h3>
+							<p>(434) 333-1844</p>
 						</section>
-						<section class="split contact">
-							<section class="alt">
-								<h3>Address</h3>
-								<p>1234 Somewhere Road #87257<br />
-								Nashville, TN 00000-0000</p>
-							</section>
-							<section>
-								<h3>Phone</h3>
-								<p><a href="#">(000) 000-0000</a></p>
-							</section>
-							<section>
-								<h3>Email</h3>
-								<p><a href="#">info@untitled.tld</a></p>
-							</section>
-							<section>
-								<h3>Social</h3>
-								<ul class="icons alt">
-									<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</section>
+						<section>
+							<h3>Email</h3>
+							<p>moeccn@gmail.com</p>
 						</section>
+						<section>
+							<h3>Social</h3>
+							<ul class="icons alt">
+								<li><a href="https://twitter.com/BigBoiMoe_" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="https://github.com/MoeChad" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/mohammad-moe-c-927b77164/" class="icon brands alt fa-linkedin"><span class="label">linkedin</span></a></li>
+							</ul>
+						</section>
+					</section>
+				</footer>
+
 					</footer>
 
 				<!-- Copyright -->
