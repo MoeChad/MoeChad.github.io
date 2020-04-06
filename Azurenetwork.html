@@ -60,46 +60,6 @@
 												<p>An Azure service that allows you to extend on-premesis networks over a private connection. By nature, ExpressRoute ciruits use
 													a dedicated private connection between Azure and the on-premesis network 
 												</p>
-											</dd>
-											<dt>Item 2</dt>
-											<dd>
-												<p>Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-											</dd>
-											<dt>Item 3</dt>
-											<dd>
-												<p>Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
-											</dd>
-										</dl>
-
-								<h2>Prerequisites</h2>
-								<ul>
-									<li>The website.json template found in this <a href="https://github.com/MoeChad/StaticWebsite">github repository</u></a> should be used in CloudFormation to create a S3 bucket which has two unique 
-										properties. First, the access control property is set to public read and second, the website hosting property is enabled and configured to hold an index.html document.
-										</li>
-									<li>A sample file named index.html should be uploaded to the appropriate github repository branch.</li>
-								</ul>
-								<h2>CI/CD Pipeline phases</h2>
-								<ul>
-									<li><strong>Source Phase:</strong> The action provider for this pipeline was this <a href="https://github.com/MoeChad/StaticWebsite">github repository</u></a>. Webhooks were used
-									for the change detection method to ensure a test environment would be generated anytime there were changes to the repository. </li>
-									<li><strong>Testing Phase:</strong> CodeBuild was used to test whether the index.html file contained the words "Automation for the People!". This was done 
-										by using <code>cat index.html | grep "Automation for the People!"</code> (The generated buildspec.yml is available in the repository)
-									</li>
-									<li><strong>Deploy Phase:</strong> If the test phase had no errors then the index.html file was deployed to the S3 bucket initially created in the CloudFormation stack.</li>
-								</ul>
-								<h2>Cleanup</h2>
-								<ul>
-									<li>Ensure you delete the CloudFormation stack and the S3 bucket to avoid incurring any additional charges.</li>
-								</ul>
-
-								<h2>Ideas for Imrpovement</h2>
-								<ul>
-									<li>Further automate the process by provisioning the S3 bucket inside the CodePipeline.</li>
-									<li>Use a configurable TTL to delete the S3 bucket and any other dependencies.</li>
-								</ul>
-								<ul class="actions special">
-									<li><a href="https://github.com/MoeChad/StaticWebsite" class="button large">Project repository</a></li>
-								</ul>
 
 							</section>
 
