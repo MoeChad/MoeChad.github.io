@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Azure HUB and Spoke Network Design</title>
+		<title>Azure Networking </title>
 		<link rel="shortcut icon" type= "image/png" href="images/ethernet.png"
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -41,26 +41,43 @@
 						<!-- Post -->
 							<section class="post">
 								<header class="major">
-									<h1>Azure HUB and Spoke Network Design<br />
+									<h1>Azure Hybrid Network Design Scheme<br />
 									</h1>
-									<p>This project is a demonstration of CI/CD concepts by creating a 
-										static web hosting S3 bucket with CloudFormation and using CloudBuild as a form of automated testing. 
-										This is all orchestrated by CodePipeline</p>
+									<p>This project explores the hybrid network capabilities in Azure. It goes into an in 
+										depth look at on-premesis integration and using tools
+										such as Azure ExpressRoute and Azure VPN Gateway to secure traffic.</p>
 								</header>
 								<div class="image main"><img src="images/hub-spoke.png" alt="" /></div>
-								<h2>Services</h2>
-								<ul>
-									<li>CodePipeline</li>
-									<li>CodeBuild</li>
-									<li>CloudFormation</li>
-								</ul>
+								<h2>about Azure Virtual Networks</h2>
+									<p>Azure virtual networks provide a specific set of tools and resources for building cloud-based network 
+										architectures. They're composed of a variety of elements including, but not limited to, network interfaces,
+										load balancers, subnets, network security groups, and public IP addresses. All these elments work in tangent
+										to enable secure communication between the on-premesis network and Azure resources.</p>
+										<h4>Definitions</h4>
+										<dl>
+											<dt>Azure ExpressRoute</dt>
+											<dd>
+												<p>An Azure service that allows you to extend on-premesis networks over a private connection. By nature, ExpressRoute ciruits use
+													a dedicated private connection between Azure and the on-premesis network 
+												</p>
+											</dd>
+											<dt>Item 2</dt>
+											<dd>
+												<p>Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
+											</dd>
+											<dt>Item 3</dt>
+											<dd>
+												<p>Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
+											</dd>
+										</dl>
+
 								<h2>Prerequisites</h2>
-								<ol>
+								<ul>
 									<li>The website.json template found in this <a href="https://github.com/MoeChad/StaticWebsite">github repository</u></a> should be used in CloudFormation to create a S3 bucket which has two unique 
 										properties. First, the access control property is set to public read and second, the website hosting property is enabled and configured to hold an index.html document.
 										</li>
 									<li>A sample file named index.html should be uploaded to the appropriate github repository branch.</li>
-								</ol>
+								</ul>
 								<h2>CI/CD Pipeline phases</h2>
 								<ul>
 									<li><strong>Source Phase:</strong> The action provider for this pipeline was this <a href="https://github.com/MoeChad/StaticWebsite">github repository</u></a>. Webhooks were used
