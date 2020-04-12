@@ -43,9 +43,9 @@
 								<header class="major">
 									<h1>Azure Hybrid Network Design Scheme<br />
 									</h1>
-									<p>This project explores the hybrid network capabilities in Azure. It goes into an in 
-										depth look at on-premesis integration with Azure resources using a VPN gateway, 
-										virtual network peering, and a VPN software appliance running on Hyper-V to secure traffic </p>
+									<p>This project explores the hybrid network capabilities in Azure. It goes into an in-depth look at 
+										on-premesis integration by developing a site-to-site VPN connection to Azure resources using a VPN gateway, 
+										virtual network peering, and a VPN software appliance running on Hyper-V.</p>
 								</header>
 								<div class="image main"><img src="images/hub-spoke.png" alt="" /></div>
 								<h2>about Azure Virtual Networks</h2>
@@ -53,13 +53,36 @@
 										architectures. They're composed of a variety of elements including, but not limited to, network interfaces,
 										load balancers, subnets, network security groups, and public IP addresses. All these elments work in tangent
 										to enable secure communication between the on-premesis network and Azure resources.</p>
-										<h4>Definitions</h4>
-										<dl>
-											<dt>Azure ExpressRoute</dt>
-											<dd>
-												<p>An Azure service that allows you to extend on-premesis networks over a private connection. By nature, ExpressRoute ciruits use
-													a dedicated private connection between Azure and the on-premesis network 
-												</p>
+								<h2>On-Premise requirements</h2>
+									<p>There are several configurations you'll want to make on your on-premise environment (outlined below) to be able to
+										establish a connection to the virtual network in your Azure resources.
+										<ul>
+											<li><strong>Port Forwarding:</strong> There are two key protocols that fall under the IPSec suite. IKEv2 (Internet Key Exchange
+												version 2) and ESP (Encapsulationg Security Payloads). Many network middleboxes by default block both of these protocols from traversing over TCP connections on your LAN. Forwarding ports 500 (IKE) and 4500 (IPSec NAT-T) will ensure
+											incoming VPN connection negitations are able to successfully traverse your LAN. Checkout <a href="https://tools.ietf.org/html/rfc8229">RFC 8229</u></a> for a deep breakdown of TCP encapsulation of IKE and IPSec packets. </li>
+											<li><strong>VPN Appliance:</strong> The VPN appliance used in this project was a Windows RRAS server sitting in Hyper-V configured with two virtual switches. The external virtual switch was used so the RRAS server could reach the default gateway 
+												and have access to the internet. The internal virtual switch was used so the other virtual machines in the hypervisor could communicate with the RRAS server to keep the hypervisor network isolated.
+												<li><strong>LAN Topology:</strong> Below is a very basic diagram of what my topology looks like. 
+											</li>
+										</ul>
+								<div class="image main"><img src="images/topology.PNG" alt="" /></div>
+								<h2>Azure requirements</h2>
+									</p> In this section we'll talk about the configuration of the Azure resources resources used to setup the site-to-site connection with our 
+									on-premise environment.<p>
+										<ul>
+											<li><strong>Subnets:</strong> We created two subnets in our virtaul network. The first subnet which is only used to
+												virtaul network gateway resource. The second subnet is the management subnet where we deployed a Ubuntu server which acts as jumpbox to the other spoked virtual networks
+											</li>
+											<li><strong>Virtual Network Gateway:</strong> This is the software VPN device for our virtual network and is used with the connection
+												resource to set up the site-to-site VPN connection. We also deployed a Public IP address which is associated with the virtual network gateway
+											</li>
+											<li><strong>Connection:</strong> This resource is where we create the pre-shared key which serves to authenticate peers to eachother during phase 1 IKE negotiations. The connection resources
+											also helps establish the protocol type which in our case is IKEv2.</li>
+											<li><strong>Peering:</strong> This resource was used to connect our spoke 1 and spoke 2 virtual networks to the hub virtual network. Once these virtual networks are succesfully peered, resources
+												in all three networks are able to communicate with each other, as if the resources were in the same virtual network. </li>
+
+										</ul>
+
 												<ul class="actions special">
 													<li><a href="/index.html" class="button large">UNDER CONSTRUCTION</a></li>
 												</ul>
