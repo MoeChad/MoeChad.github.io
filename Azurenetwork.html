@@ -67,16 +67,16 @@
 										</ul>
 								<div class="image main"><img src="images/topology.PNG" alt="" /></div>
 								<h2>Azure requirements</h2>
-									</p> In this section we'll talk about the configuration of the Azure resources resources used to setup the site-to-site connection with our 
+									</p> In this section we'll talk about the configuration of the Azure resources used to setup the site-to-site connection with our 
 									on-premise environment.<p>
 										<ul>
-											<li><strong>Subnets:</strong> We created two subnets in our virtaul network. The first subnet which is only used to
+											<li><strong>Subnets:</strong> We created two subnets in our virtaul network. The first subnet which is only used for
 												virtaul network gateway resource. The second subnet is the management subnet where we deployed a Ubuntu server which acts as jumpbox to the other spoked virtual networks
 											</li>
 											<li><strong>Virtual Network Gateway:</strong> This is the software VPN device for our virtual network and is used with the connection
 												resource to set up the site-to-site VPN connection. We also deployed a Public IP address which is associated with the virtual network gateway
 											</li>
-											<li><strong>Connection:</strong> This resource is where we create the pre-shared key which serves to authenticate peers to eachother during phase 1 IKE negotiations. The connection resources
+											<li><strong>Connection:</strong> This resource is where we created the pre-shared key which serves to authenticate peers to eachother during phase 1 IKE negotiations. The connection resources
 											also helps establish the protocol type which in our case is IKEv2.</li>
 											<li><strong>Peering:</strong> This resource was used to connect our spoke 1 and spoke 2 virtual networks to the hub virtual network. Once these virtual networks are succesfully peered, resources
 												in all three networks are able to communicate with each other, as if the resources were in the same virtual network. </li>
