@@ -59,7 +59,7 @@
 										<ul>
 											<li><strong>Port Forwarding:</strong> There are two key protocols that fall under the IPSec suite. IKEv2 (Internet Key Exchange
 												version 2) and ESP (Encapsulationg Security Payloads). Many network middleboxes by default block both of these protocols from traversing over TCP connections on your LAN. Forwarding ports 500 (IKE) and 4500 (IPSec NAT-T) will ensure
-											incoming VPN connection negitations are able to successfully traverse your LAN. Checkout <a href="https://tools.ietf.org/html/rfc8229">RFC 8229</u></a> for a deep breakdown of TCP encapsulation of IKE and IPSec packets. </li>
+											incoming VPN connection negitations are able to successfully traverse your LAN and get to the VPN appliance. Checkout <a href="https://tools.ietf.org/html/rfc8229">RFC 8229</u></a> for a deeper breakdown of TCP encapsulation of IKE and IPSec packets. </li>
 											<li><strong>VPN Appliance:</strong> The VPN appliance used in this project was a Windows RRAS server sitting in Hyper-V configured with two virtual switches. The external virtual switch was used so the RRAS server could reach the default gateway 
 												and have access to the internet. The internal virtual switch was used so the other virtual machines in the hypervisor could communicate with the RRAS server to keep the hypervisor network isolated.
 												<li><strong>LAN Topology:</strong> Below is a very basic diagram of what my topology looks like. 
@@ -67,7 +67,7 @@
 										</ul>
 								<div class="image main"><img src="images/topology.PNG" alt="" /></div>
 								<h2>Azure requirements</h2>
-									</p> In this section we'll talk about the configuration of the Azure resources used to setup the site-to-site connection with our 
+									</p> In this section we'll talk about the configuration of the Azure resources used to set up the site-to-site connection with our 
 									on-premise environment.<p>
 										<ul>
 											<li><strong>Subnets:</strong> We created two subnets in our virtaul network. The first subnet which is only used for
@@ -90,7 +90,7 @@
 								</ul>
 								
 								<ul class="actions special">
-									<li><a href="/index.html" class="button large">Github Repository</a></li>
+									<li><a href="/index.html" class="button large">Project Repository</a></li>
 								</ul>
 							</section>
 
