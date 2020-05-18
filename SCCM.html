@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>SCCM Client Troubleshooting</title>
+	<link rel="shortcut icon" type="image/png" href="images/ethernet.png" <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+		<header id="header">
+			<a href="index.html" class="logo">Home</a>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul class="links">
+
+			</ul>
+			<ul class="icons">
+				<li><a href="https://twitter.com/BigBoiMoe_" class="icon brands fa-twitter"><span
+							class="label">Twitter</span></a></li>
+				<li><a href="https://github.com/MoeChad" class="icon brands fa-github"><span
+							class="label">GitHub</span></a></li>
+				<li><a href="https://www.linkedin.com/in/mohammad-moe-c-927b77164/"
+						class="icon brands fa-linkedin"><span class="label">linkedin</span></a></li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- Post -->
+			<section class="post">
+				<header class="major">
+					<h1>SCCM Client<br />
+						Troubleshooting</h1>
+					<p>This post goes over common client-side SCCM errors and how to troubleshoot them using
+                        CMTrace and powerShell scripting. There is a github repository available at the bottom of this post 
+                        with PowerShell templates and reference documentation.
+                    </p>
+				</header>
+				<div class="image main"><img src="images/powershell_logo.png" alt="" /></div>
+				<h2>Software Updates not advertised</h2>
+				<ul>
+					<li>CodePipeline</li>
+					<li>CodeBuild</li>
+					<li>CloudFormation</li>
+				</ul>
+				<h2>Prerequisites</h2>
+				<ul>
+					<li>The website.json template found in this <a
+							href="https://github.com/MoeChad/StaticWebsite">github repository</u></a> should be used in
+						CloudFormation to create a S3 bucket which has two unique
+						properties. First, the access control property is set to public read and second, the website
+						hosting property is enabled and configured to hold an index.html document.
+					</li>
+					<li>A sample file named index.html should be uploaded to the appropriate github repository branch.
+					</li>
+				</ul>
+				<h2>CI/CD Pipeline phases</h2>
+				<ul>
+					<li><strong>Source Phase:</strong> The action provider for this pipeline was this <a
+							href="https://github.com/MoeChad/StaticWebsite">github repository</u></a>. Webhooks were
+						used
+						for the change detection method to ensure a test environment would be generated anytime there
+						were changes to the repository. </li>
+					<li><strong>Testing Phase:</strong> CodeBuild was used to test whether the index.html file contained
+						the words "Automation for the People!". This was done
+						by using <code>cat index.html | grep "Automation for the People!"</code> (The generated
+						buildspec.yml is available in the repository)
+					</li>
+					<li><strong>Deploy Phase:</strong> If the test phase had no errors then the index.html file was
+						deployed to the S3 bucket initially created in the CloudFormation stack.</li>
+				</ul>
+				<h2>Cleanup</h2>
+				<ul>
+					<li>Ensure you delete the CloudFormation stack and the S3 bucket to avoid incurring any additional
+						charges.</li>
+				</ul>
+
+				<h2>Ideas for Imrpovement</h2>
+				<ul>
+					<li>Further automate the process by provisioning the S3 bucket inside the CodePipeline.</li>
+					<li>Use a configurable TTL to delete the S3 bucket and any other dependencies.</li>
+				</ul>
+				<ul class="actions special">
+					<li><a href="https://github.com/MoeChad/StaticWebsite" class="button large">Project repository</a>
+					</li>
+				</ul>
+
+			</section>
+
+		</div>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<section>
+				<a href="https://www.youracclaim.com/badges/a436c1f3-6a17-4c56-9180-1d8a7275fb2d/public_url"
+					class="image fit"><img src="images/ccna_600.png" alt="" /></a>
+			</section>
+			<section class="split contact">
+				<section class="alt">
+					<h3>Address</h3>
+					<p>127.0.0.1</p>
+				</section>
+				<section>
+					<h3>Phone</h3>
+					<p>(434) 333-1844</p>
+				</section>
+				<section>
+					<h3>Email</h3>
+					<p>moeccn@gmail.com</p>
+				</section>
+				<section>
+					<h3>Social</h3>
+					<ul class="icons alt">
+						<li><a href="https://twitter.com/BigBoiMoe_" class="icon brands alt fa-twitter"><span
+									class="label">Twitter</span></a></li>
+						<li><a href="https://github.com/MoeChad" class="icon brands alt fa-github"><span
+									class="label">GitHub</span></a></li>
+						<li><a href="https://www.linkedin.com/in/mohammad-moe-c-927b77164/"
+								class="icon brands alt fa-linkedin"><span class="label">linkedin</span></a></li>
+					</ul>
+				</section>
+			</section>
+		</footer>
+
+		</footer>
+
+		<!-- Copyright -->
+		<div id="copyright">
+			<ul>
+				<li>&copy; MoeChad</li>
+				<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
