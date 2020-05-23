@@ -7,7 +7,7 @@
 <html>
 
 <head>
-	<title>SCCM Client Troubleshooting</title>
+	<title>Powershell Advanced Functions</title>
 	<link rel="shortcut icon" type="image/png" href="images/ethernet.png" <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
@@ -46,59 +46,85 @@
 			<!-- Post -->
 			<section class="post">
 				<header class="major">
-					<h1>SCCM Client<br />
-						Troubleshooting</h1>
-					<p>This post goes over common client-side SCCM errors and how to troubleshoot them using
-                        CMTrace and powerShell scripting. There is a github repository available at the bottom of this post 
-                        with PowerShell templates and reference documentation.
+					<h1>Powershell<br />
+						Advanced Functions</h1>
+					<p>This post contains custom Powershell functions used to interact with O365, SCCM, Active Directory, and a variety of other technologies. There is a github repository available at the bottom of this post 
+						that contains the powershell function files and reference documentation used to make them.
                     </p>
 				</header>
 				<div class="image main"><img src="images/powershell_logo.png" alt="" /></div>
-				<h2>Client not receiving Windows updates</h2>
+				<h2>Set-SkypeAddin</h2>
 				<ul>
-					<li>CodePipeline</li>
-					<li>CodeBuild</li>
-					<li>CloudFormation</li>
+					<li> The goal of this function is to enable the Skype add-in for Oulook when
+						the COM add-in menu is not functioning correctly. The fix involves using a PowerShell drive to interact with 
+						registry hives since O365 settings are attached to user profiles. 
+						</li>
+
 				</ul>
-				<h2>Prerequisites</h2>
+				<h3>Requirements</h3>
 				<ul>
-					<li>The website.json template found in this <a
-							href="https://github.com/MoeChad/StaticWebsite">github repository</u></a> should be used in
-						CloudFormation to create a S3 bucket which has two unique
-						properties. First, the access control property is set to public read and second, the website
-						hosting property is enabled and configured to hold an index.html document.
-					</li>
-					<li>A sample file named index.html should be uploaded to the appropriate github repository branch.
-					</li>
+					<li>This funcion requires the Active Directory module</li>
 				</ul>
-				<h2>CI/CD Pipeline phases</h2>
+				<h3>Code</h3>
+				<pre><code>
+#Requires -module ActiveDirectory
+
+function Set-SkypeAddin {
+    [cmdletbinding()]
+    param(
+        [parameter(Mandatory)]
+        [string]$UserName
+    )
+
+    try {
+        $SID = Get-ADUser -Identity $UserName -Properties SID | Select-Object -ExpandProperty SID
+        Write-Verbose -Message ('Located user {0}' -f $UserName) 
+    }
+    catch {
+        Throw ('Unable to locate user {0}' -f $UserName)
+    }
+
+    Write-Verbose -Message 'Establishing a PSDrive to HKU'
+    New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS > $null 
+
+    $ResiliencyPath = 'HKU:\{0}\Software\Microsoft\Office\16.0\Outlook\Resiliency\DoNotDisturbAddinList' -f $SID
+    $AddinPath = 'HKU:\{0}\Software\Microsoft\Office\16.0\Outlook\Addins\UCAddin.LyncAddin.1' -f $SID
+
+    if ((Test-Path -Path $ResiliencyPath) -eq $false)  {
+        Write-Verbose -Message ('The user path for DoNotDisturbAddinList does not exist for {0}; creating that path' -f $UserName)
+        New-Item -Path $ResiliencyPath -Force > $Null
+    }
+
+    Write-Verbose -Message ('Setting properties for UCAddin.Lync.1 and LoadBehavior')
+    New-ItemProperty -Path $ResiliencyPath -Name UCAddin.Lync.1 -Value 1 -PropertyType DWord -Force > $Null
+    New-ItemProperty -Path $AddinPath -Name LoadBehavior -Value 3 -PropertyType DWord -Force > $Null
+
+    Remove-PSDrive -Name HKU 
+}
+					</code></pre>
+					<h3>Functionality</h3>
+					<ol>
+						<li>Function prompts for username</li>
+						<li>Username is used with <code>Get-ADUser</code> to pull domain SID</li>
+						<li>Domain SID is used to create the registry path to HKEY_CURRENT_USER</li>
+						<li>Creates the "DoNotDisableAddinList" registry key if one does not exist</li>
+						<li>Adds the "LoadBehavior" and "UCAddin.Lync.1" values to the appropriate registry keys</li>
+					</ol>
+				<h3>Example</h3>
 				<ul>
-					<li><strong>Source Phase:</strong> The action provider for this pipeline was this <a
-							href="https://github.com/MoeChad/StaticWebsite">github repository</u></a>. Webhooks were
-						used
-						for the change detection method to ensure a test environment would be generated anytime there
-						were changes to the repository. </li>
-					<li><strong>Testing Phase:</strong> CodeBuild was used to test whether the index.html file contained
-						the words "Automation for the People!". This was done
-						by using <code>cat index.html | grep "Automation for the People!"</code> (The generated
-						buildspec.yml is available in the repository)
-					</li>
-					<li><strong>Deploy Phase:</strong> If the test phase had no errors then the index.html file was
-						deployed to the S3 bucket initially created in the CloudFormation stack.</li>
-				</ul>
-				<h2>Cleanup</h2>
-				<ul>
-					<li>Ensure you delete the CloudFormation stack and the S3 bucket to avoid incurring any additional
-						charges.</li>
+					<li><code>Set-SkypeAddin -Username</code></li>
+					<li>The <code>-Verbose</code> parameter can be used to obtain detailed information
+					on what the code has or hasn't done</li>
 				</ul>
 
-				<h2>Ideas for Imrpovement</h2>
+				<h3>Error Handling</h3>
 				<ul>
-					<li>Further automate the process by provisioning the S3 bucket inside the CodePipeline.</li>
-					<li>Use a configurable TTL to delete the S3 bucket and any other dependencies.</li>
+					<li>This function has a very simple error handling feature in the form of a try/catch if <code>
+						get-ADUser</code> can't find a username
+					</li>
 				</ul>
 				<ul class="actions special">
-					<li><a href="https://github.com/MoeChad/StaticWebsite" class="button large">Project repository</a>
+					<li><a href="https://github.com/MoeChad/Skype-Addin-for-Outlook-Repair" class="button large">Project repository</a>
 					</li>
 				</ul>
 
